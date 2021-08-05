@@ -1,32 +1,34 @@
-import React, {Suspense} from "react";
-import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import React, {Suspense, lazy} from "react";
+import { Route, HashRouter as Router, Redirect } from "react-router-dom";
 import routes from "./routes";
 import SideBar from "./components/SideBar";
-import './App.less'
+import './App.scss'
 
 function App() {
   return (
-    <div className="content">
-      <SideBar className="left"/>
-      <div className="right">
-        <Router>
-          <Suspense fallback={<div>loading</div>}>
+    <Router>
+      <Suspense fallback={<div>loading</div>}>
+        <div className="content">
+          <div className="left">
+            <SideBar />
+          </div>
+          <div className="right">
             {routes.map((item) => {
               const { path, component } = item;
               return (
-                <Route
-                  exact
-                  key={path}
-                  path={path}
-                  component={component}
-                />
+                    <Route
+                      exact
+                      key={path}
+                      path={path}
+                      component={lazy(component)}
+                    />
               );
             })}
-            <Redirect from="/" to={"/demo1"} />
-          </Suspense>
-        </Router>
-      </div>
-    </div>
+            </div>
+          </div>
+        <Redirect from="/" to={"/demo1"} />
+      </Suspense>
+    </Router>
   );
 }
 

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const Index = () => {
+    useEffect(()=>{
+        document.getElementById('demo11').appendChild(init())
+    })
     const init = ()=>{
         /**
          * 创建场景对象Scene
@@ -86,8 +89,8 @@ const Index = () => {
         scene.add(skeletonHelper);
         
         // 转动关节带动骨骼网格模型出现弯曲效果  好像腿弯曲一样
-        // skeleton.bones[1].rotation.x = 0.3;
-        // skeleton.bones[2].rotation.x = 0.3;
+        skeleton.bones[1].rotation.x = 0.3;
+        skeleton.bones[2].rotation.x = 0.3;
 
 
 
@@ -179,13 +182,11 @@ const Index = () => {
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(width, height);//设置渲染区域尺寸
         renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
-        document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
 
 
-
-        // var n = 0;
-        // var T = 30;
-        // var step = 0.01;
+        var n = 0;
+        var T = 30;
+        var step = 0.01;
 
         // 创建一个时钟对象Clock
         var clock = new THREE.Clock();
@@ -195,21 +196,21 @@ const Index = () => {
             renderer.render(scene,camera);//执行渲染操作
             requestAnimationFrame(render);
 
-            // n += 1;
-            // if (n < T) {
-            //     // 改变骨关节角度
-            //     skeleton.bones[0].rotation.x -= step;
-            //     skeleton.bones[1].rotation.x += step;
-            //     skeleton.bones[2].rotation.x += 2 * step;
-            // }
-            // if (n < 2 * T && n > T) {
-            //     skeleton.bones[0].rotation.x += step;
-            //     skeleton.bones[1].rotation.x -= step;
-            //     skeleton.bones[2].rotation.x -= 2 * step;
-            // }
-            // if (n === 2 * T) {
-            //     n = 0;
-            // }
+            n += 1;
+            if (n < T) {
+                // 改变骨关节角度
+                skeleton.bones[0].rotation.x -= step;
+                skeleton.bones[1].rotation.x += step;
+                skeleton.bones[2].rotation.x += 2 * step;
+            }
+            if (n < 2 * T && n > T) {
+                skeleton.bones[0].rotation.x += step;
+                skeleton.bones[1].rotation.x -= step;
+                skeleton.bones[2].rotation.x -= 2 * step;
+            }
+            if (n === 2 * T) {
+                n = 0;
+            }
 
             //clock.getDelta()方法获得两帧的时间间隔
             // 更新混合器相关的时间
@@ -217,10 +218,10 @@ const Index = () => {
         }
         render()
         new OrbitControls(camera,renderer.domElement);//创建控件对象
-
+        return renderer.domElement
     }
     init()
-    return <div></div>;
+    return <div id="demo11"></div>;
 };
 
 export default Index;

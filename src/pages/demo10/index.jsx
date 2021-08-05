@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const Index = () => {
+    useEffect(()=>{
+        document.getElementById('demo10').appendChild(init())
+    })
     const init = ()=>{
         /**
          * 创建场景对象Scene
@@ -93,7 +96,6 @@ const Index = () => {
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(width, height);//设置渲染区域尺寸
         renderer.setClearColor(0xb9d3ff, 1); //设置背景颜色
-        document.body.appendChild(renderer.domElement); //body元素中插入canvas对象
 
         // 创建一个时钟对象Clock
         var clock = new THREE.Clock();
@@ -107,10 +109,10 @@ const Index = () => {
         }
         render()
         new OrbitControls(camera,renderer.domElement);//创建控件对象
-
+        return renderer.domElement
     }
     init()
-    return <div></div>;
+    return <div id="demo10"></div>;
 };
 
 export default Index;

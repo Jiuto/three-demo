@@ -1,21 +1,22 @@
 import React from 'react';
 import { Menu, Icon } from 'antd';
 import routes from '../../routes';
+import { useHistory } from 'react-router-dom';
 
 const { SubMenu } = Menu;
 
-const SideBar = ()=>{ 
-    
+function SideBar(){ 
+    const history = useHistory()
+
     const handleClick = e => {
-        console.log('click ', e);
+        history.push(e.key)
     };
 
     return (
         <Menu
+            className="sidebar"
+            openKeys={["demo"]}
             onClick={handleClick}
-            style={{ width: 300 }}
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
             mode="inline"
             theme="dark"
         >
@@ -28,13 +29,11 @@ const SideBar = ()=>{
                 </span>
             }
         >
-            {()=>{
-                let dom;
-                routes.forEach(item=>{
-                    dom += <Menu.Item key={item.name}>{item.name}</Menu.Item>
+            {
+                routes.map(item=>{
+                    return <Menu.Item key={item.path}>{item.name}</Menu.Item>
                 })
-                return dom
-            }}
+            }
         </SubMenu>
         </Menu>
     );
